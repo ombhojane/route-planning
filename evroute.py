@@ -51,7 +51,7 @@ def display_map(starting_point, destination, route_data):
     st.components.v1.html(map_html, height=600)
 
 def main():
-    st.title('EV Navigation Streamlit App')
+    st.title('Guiding Your Journey, Your Way')
     
     starting_point = st.text_input('Enter the starting point:')
     destination = st.text_input('Enter the destination:')
