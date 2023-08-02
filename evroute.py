@@ -34,8 +34,13 @@ def calculate_route(starting_point, destination):
         raise ValueError("No route found. Please check your starting point and destination.")
 
 
-def display_map(starting_point, destination, route_data):
-    m = folium.Map()
+def display_map(starting_point, destination, route_data, map_type='standard'):
+    if map_type == 'standard':
+        m = folium.Map()
+    elif map_type == 'dynamic':
+        m = folium.Map(tiles='CartoDB positron', zoom_start=12)
+    else:
+        m = folium.Map()
 
     # Add markers for the starting point and destination
     folium.Marker(location=starting_point, tooltip='Starting Point', icon=folium.Icon(icon='play')).add_to(m)
@@ -55,13 +60,14 @@ def main():
     
     starting_point = st.text_input('Enter the starting point:')
     destination = st.text_input('Enter the destination:')
+    map_type = st.selectbox('Select Map Type', ['Standard', 'Dynamic'])
 
     if st.button('Plan Route'):
         try:
             starting_location = get_coordinates(starting_point)
             destination_location = get_coordinates(destination)
             route_data = calculate_route(starting_location, destination_location)
-            display_map(starting_location, destination_location, route_data)
+            display_map(starting_location, destination_location, route_data, map_type.lower())
         except Exception as e:
             st.error(f"Error: {e}")
 
